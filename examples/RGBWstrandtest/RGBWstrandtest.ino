@@ -1,4 +1,4 @@
-#include <Adafruit_NeoPixel.h>
+#include <Adafruit_NeoPixel_Universal.h>
 #ifdef __AVR__
   #include <avr/power.h>
 #endif
@@ -9,7 +9,7 @@
 
 #define BRIGHTNESS 50
 
-Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUM_LEDS, PIN, NEO_GRBW + NEO_KHZ800);
+Adafruit_NeoPixel_Universal strip = Adafruit_NeoPixel_Universal(NUM_LEDS, PIN, NEO_GRBW + NEO_KHZ800);
 
 int gamma[] = {
     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
