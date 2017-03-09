@@ -47,7 +47,7 @@ Adafruit_NeoPixel_Universal::Adafruit_NeoPixel_Universal(uint16_t n, uint8_t p, 
 // read from internal flash memory or an SD card, or arrive via serial
 // command.  If using this constructor, MUST follow up with updateType(),
 // updateLength(), etc. to establish the strand type, length and pin number!
-Adafruit_NeoPixel_Universal::Adafruit_NeoPixel() :
+Adafruit_NeoPixel_Universal::Adafruit_NeoPixel_Universal() :
 #ifdef NEO_KHZ400
   is800KHz(true),
 #endif
@@ -56,7 +56,7 @@ Adafruit_NeoPixel_Universal::Adafruit_NeoPixel() :
 {
 }
 
-Adafruit_NeoPixel_Universal::~Adafruit_NeoPixel() {
+Adafruit_NeoPixel_Universal::~Adafruit_NeoPixel_Universal() {
   if(pixels)   free(pixels);
   if(pin >= 0) pinMode(pin, INPUT);
 }
@@ -913,19 +913,19 @@ void Adafruit_NeoPixel_Universal::show(void) {
       asm volatile(
        "headF:"                   "\n\t"
         "out   %[port], %[hi]"    "\n\t"
-        "rcall bitTimeC"          "\n\t"
+        "rcall bitTimeF"          "\n\t"
         "out   %[port], %[hi]"    "\n\t"
-        "rcall bitTimeC"          "\n\t"
+        "rcall bitTimeF"          "\n\t"
         "out   %[port], %[hi]"    "\n\t"
-        "rcall bitTimeC"          "\n\t"
+        "rcall bitTimeF"          "\n\t"
         "out   %[port], %[hi]"    "\n\t"
-        "rcall bitTimeC"          "\n\t"
+        "rcall bitTimeF"          "\n\t"
         "out   %[port], %[hi]"    "\n\t"
-        "rcall bitTimeC"          "\n\t"
+        "rcall bitTimeF"          "\n\t"
         "out   %[port], %[hi]"    "\n\t"
-        "rcall bitTimeC"          "\n\t"
+        "rcall bitTimeF"          "\n\t"
         "out   %[port], %[hi]"    "\n\t"
-        "rcall bitTimeC"          "\n\t"
+        "rcall bitTimeF"          "\n\t"
         "out  %[port] , %[hi]"    "\n\t"
         "rjmp .+0"                "\n\t"
         "ld   %[byte] , %a[ptr]+" "\n\t"
@@ -937,8 +937,8 @@ void Adafruit_NeoPixel_Universal::show(void) {
         "out  %[port] , %[lo]"    "\n\t"
         "sbiw %[count], 1"        "\n\t"
         "brne headF"              "\n\t"
-         "rjmp doneC"             "\n\t"
-        "bitTimeC:"               "\n\t"
+         "rjmp doneF"             "\n\t"
+        "bitTimeF:"               "\n\t"
          "out  %[port], %[next]"  "\n\t"
          "mov  %[next], %[lo]"    "\n\t"
          "rol  %[byte]"           "\n\t"
@@ -947,7 +947,7 @@ void Adafruit_NeoPixel_Universal::show(void) {
          "nop"                    "\n\t"
          "out  %[port], %[lo]"    "\n\t"
          "ret"                    "\n\t"
-         "doneC:"                 "\n"
+         "doneFS:"                 "\n"
         : [byte] "+r" (b), [next] "+r" (next), [count] "+w" (i)
         : [port] "I" (_SFR_IO_ADDR(PORTF)), [ptr] "e" (ptr), [hi] "r" (hi),
           [lo] "r" (lo));
@@ -969,21 +969,21 @@ void Adafruit_NeoPixel_Universal::show(void) {
 
       // Same as above, just set for PORTF & stripped of comments
       asm volatile(
-       "headF:"                   "\n\t"
+       "headA:"                   "\n\t"
         "out   %[port], %[hi]"    "\n\t"
-        "rcall bitTimeC"          "\n\t"
+        "rcall bitTimeA"          "\n\t"
         "out   %[port], %[hi]"    "\n\t"
-        "rcall bitTimeC"          "\n\t"
+        "rcall bitTimeA"          "\n\t"
         "out   %[port], %[hi]"    "\n\t"
-        "rcall bitTimeC"          "\n\t"
+        "rcall bitTimeA"          "\n\t"
         "out   %[port], %[hi]"    "\n\t"
-        "rcall bitTimeC"          "\n\t"
+        "rcall bitTimeA"          "\n\t"
         "out   %[port], %[hi]"    "\n\t"
-        "rcall bitTimeC"          "\n\t"
+        "rcall bitTimeA"          "\n\t"
         "out   %[port], %[hi]"    "\n\t"
-        "rcall bitTimeC"          "\n\t"
+        "rcall bitTimeA"          "\n\t"
         "out   %[port], %[hi]"    "\n\t"
-        "rcall bitTimeC"          "\n\t"
+        "rcall bitTimeA"          "\n\t"
         "out  %[port] , %[hi]"    "\n\t"
         "rjmp .+0"                "\n\t"
         "ld   %[byte] , %a[ptr]+" "\n\t"
@@ -994,9 +994,9 @@ void Adafruit_NeoPixel_Universal::show(void) {
         "nop"                     "\n\t"
         "out  %[port] , %[lo]"    "\n\t"
         "sbiw %[count], 1"        "\n\t"
-        "brne headF"              "\n\t"
-         "rjmp doneC"             "\n\t"
-        "bitTimeC:"               "\n\t"
+        "brne headA"              "\n\t"
+         "rjmp doneA"             "\n\t"
+        "bitTimeA:"               "\n\t"
          "out  %[port], %[next]"  "\n\t"
          "mov  %[next], %[lo]"    "\n\t"
          "rol  %[byte]"           "\n\t"
@@ -1005,7 +1005,7 @@ void Adafruit_NeoPixel_Universal::show(void) {
          "nop"                    "\n\t"
          "out  %[port], %[lo]"    "\n\t"
          "ret"                    "\n\t"
-         "doneC:"                 "\n"
+         "doneA:"                 "\n"
         : [byte] "+r" (b), [next] "+r" (next), [count] "+w" (i)
         : [port] "I" (_SFR_IO_ADDR(PORTA)), [ptr] "e" (ptr), [hi] "r" (hi),
           [lo] "r" (lo));
