@@ -1,13 +1,11 @@
-# Adafruit NeoPixel Library [![Build Status](https://travis-ci.org/adafruit/Adafruit_NeoPixel.svg?branch=master)](https://travis-ci.org/adafruit/Adafruit_NeoPixel)
+# Adafruit NeoPixel Library
 
-Arduino library for controlling single-wire-based LED pixels and strip such as the [Adafruit 60 LED/meter Digital LED strip][strip], the [Adafruit FLORA RGB Smart Pixel][flora], the [Adafruit Breadboard-friendly RGB Smart Pixel][pixel], the [Adafruit NeoPixel Stick][stick], and the [Adafruit NeoPixel Shield][shield].
+Modified by Spence Konde to support port A (as well as ports B, C, D, and F, as with the stock version), at the expense of compile size. 
 
-After downloading, rename folder to 'Adafruit_NeoPixel' and install in Arduino Libraries folder. Restart Arduino IDE, then open File->Sketchbook->Library->Adafruit_NeoPixel->strandtest sketch.
+This repo contains two versions of the library: 
 
-Modified by Spence Konde to support port A (as well as ports B, C, D, and F, as with the stock version)
+The .h and .cpp files (Adafruit_Neopixel_Universal.*) - this can be installed as a separate library, and will not conflict with the stock version. 
 
-[flora]:  http://adafruit.com/products/1060
-[strip]:  http://adafruit.com/products/1138
-[pixel]:  http://adafruit.com/products/1312
-[stick]:  http://adafruit.com/products/1426
-[shield]: http://adafruit.com/products/1430
+The drop-in version (in the .zip file) - this is the same code, but with the files and class named to match the stock version; to use this, the normal version of the library should be *replaced* with this version. 
+
+In both cases, the examples should work, and were compile tested on a tiny1634 under ATTinyCore (github latest) at 8 and 12mhz. 
